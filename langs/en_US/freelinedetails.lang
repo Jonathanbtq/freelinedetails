@@ -1,0 +1,42 @@
+# Translation file
+
+#
+# Generic
+#
+
+# Module label 'ModuleFreelinedetailsName'
+ModuleFreelinedetailsName = Freelinedetails
+# Module description 'ModuleFreelinedetailsDesc'
+ModuleFreelinedetailsDesc = Free Line detail directly at creation
+
+#
+# Admin page
+#
+FreelinedetailsSetup = Freelinedetails setup
+Settings = Settings
+FreelinedetailsSetupPage = Freelinedetails setup page
+NewSection=New section
+FREELINEDETAILS_MYPARAM1 = My param 1
+FREELINEDETAILS_MYPARAM1Tooltip = My param 1 tooltip
+FREELINEDETAILS_MYPARAM2=My param 2
+FREELINEDETAILS_MYPARAM2Tooltip=My param 2 tooltip
+
+
+#
+# About page
+#
+About = About
+FreelinedetailsAbout = About Freelinedetails
+FreelinedetailsAboutPage = Freelinedetails about page
+
+#
+# Sample page
+#
+FreelinedetailsArea = Home Freelinedetails
+MyPageName = My page name
+
+#
+# Sample widget
+#
+MyWidget = My widget
+MyWidgetDescription = My widget description
