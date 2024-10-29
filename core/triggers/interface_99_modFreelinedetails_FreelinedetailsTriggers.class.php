@@ -311,4 +311,14 @@ class InterfaceFreelinedetailsTriggers extends DolibarrTriggers
 
 		return 0;
 	}
+
+	public function lineorderInsert(string $action, $object, User $user, Translate $langs, Conf $conf)
+	{
+		global $conf, $db;
+		var_dump($action);
+		var_dump($object);
+		$prd = new Product($this->db);
+		$prd->total_ht = $object->total_ht;
+		$prd->multicurrency_code = $object->multicurrency_code;
+	}
 }
