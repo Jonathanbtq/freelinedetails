@@ -7,7 +7,7 @@
 # Module label 'ModuleFreelinedetailsName'
 ModuleFreelinedetailsName = Freelinedetails
 # Module description 'ModuleFreelinedetailsDesc'
-ModuleFreelinedetailsDesc = Free Line detail directly at creation
+ModuleFreelinedetailsDesc = Permet de convertir une ligne libre en un nouveau produit ou service.
 
 #
 # Admin page
