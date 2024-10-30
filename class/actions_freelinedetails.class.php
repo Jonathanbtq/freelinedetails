@@ -226,9 +226,8 @@ class ActionsFreelinedetails extends CommonHookActions
 						newDiv.innerHTML = `
 							<h3>Modifier le produit</h3>
 							<p><label>Nom : <input type="text" id="label" value="${label}"></label></p>
-							<p><label>Quantité : <input type="number" id="qty" value="${qty}"></label></p>
-							<p><label>Réfence : <input type="number" id="ref" value="${ref}"></label></p>
-							<p><label>Description : <input type="number" id="description" value="${description}"></label></p>
+							<p><label>Réfence : <input type="text" id="ref" value="${ref}"></label></p>
+							<p><label>Description : <input type="text" id="description" value="${description}"></label></p>
 							<p><label>Prix : <input type="number" id="price" value="${price}" step="0.01"></label></p>
 							<p><label>Type : <input type="text" id="product_type" value="${product_type}"></label></p>
 							<p><label>Tva : <input type="number" id="tva" value="${tva}" step="0.01"></label></p>
@@ -254,7 +253,7 @@ class ActionsFreelinedetails extends CommonHookActions
 						document.getElementById('saveBtn').addEventListener('click', function() {
 							// Récupérer les nouvelles valeurs saisies par l'utilisateur
 							const newLabel = document.getElementById('label').value;
-							const newQty = document.getElementById('qty').value;
+							// const newQty = document.getElementById('qty').value;
 							const newRef = document.getElementById('ref').value;
 							const newDescription = document.getElementById('description').value;
 							const newPrice = document.getElementById('price').value;
@@ -267,7 +266,7 @@ class ActionsFreelinedetails extends CommonHookActions
 								data: {
 									lineid,
 									label: newLabel,
-									qty: newQty,
+									// qty: newQty,
 									ref: newRef,
 									description: newDescription,
 									price: newPrice,
@@ -275,7 +274,6 @@ class ActionsFreelinedetails extends CommonHookActions
 									tva: newTva
 								},
 								succes: function(response) {
-									console.log(response);
 									document.body.removeChild(newDiv);
 								},
 								error: function() {
@@ -298,7 +296,7 @@ class ActionsFreelinedetails extends CommonHookActions
 								$link.=' onclick="free2product('.$lineid.')" lineid="'.$lineid.'"';
 								$link.=' label="'.htmlentities(addslashes(strtr($desc,array("\n"=>'\n',"\r"=>'')))).'"';
 								$link.=' qty="'.$line->qty.'" price="'.$line->subprice.'"';
-								$link.=' product_type="'.$line->product_type.'" tva="'.$line->tva_tx.'" >';
+								$link.=' product_type="'.$line->product_type.'" tva="'.$line->tva_tx.'">';
 								$link.=img_left($langs->trans('MakeAsProduct')).'</a>';
 								
 								?>

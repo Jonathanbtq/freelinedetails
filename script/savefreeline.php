@@ -1,7 +1,26 @@
 <?php
 
-require '../config.php';
-	
+if(is_file('../main.inc.php'))$dir = '../';
+else  if(is_file('../../../main.inc.php'))$dir = '../../../';
+else $dir = '../../';
+
+
+if(!defined('INC_FROM_DOLIBARR') && defined('INC_FROM_CRON_SCRIPT')) {
+    include($dir."master.inc.php");
+}
+elseif(!defined('INC_FROM_DOLIBARR')) {
+    include($dir."main.inc.php");
+} else {
+    global $dolibarr_main_db_host, $dolibarr_main_db_name, $dolibarr_main_db_user, $dolibarr_main_db_pass;
+}
+
+if(!defined('DB_HOST')) {
+    define('DB_HOST',$dolibarr_main_db_host);
+    define('DB_NAME',$dolibarr_main_db_name);
+    define('DB_USER',$dolibarr_main_db_user);
+    define('DB_PASS',$dolibarr_main_db_pass);
+}
+
 dol_include_once('/product/class/product.class.php');
 
 global $user, $langs;
@@ -18,22 +37,19 @@ $tva = GETPOST('tva');
 $product = new Product($db);
 if($product->fetch('', $ref) > 0) {
     setEventMessage('Cette référence existe déjà pour un produit', 'errors');
-    break;
 }
 
-$product->label = $label;
-$product->ref = $ref;
-$product->description = $description;
-$product->price = $price;
-$product->tva_tx = $tva;
-$product->status_buy = 1;
-$product->status = 1;
-$product->type = $product_type;
-
-$product->create($user);
-// Traitement des données, par exemple les enregistrer dans la base de données
-// $db = new PDO(...); // Connexion à la base de données
-// $stmt = $db->prepare("UPDATE products SET label = ?, qty = ?, price = ?, product_type = ?, tva = ? WHERE lineid = ?");
-// $stmt->execute([$label, $qty, $price, $product_type, $tva, $lineid]);
-
-return json_encode(["status" => "success"]);
+if (empty($lineid) && empty($label)) {
+    setEventMessage('Une erreur est survenue (label manquant ou autre)', 'errors');
+} else {
+    $product->label = $label;
+    $product->ref = $ref;
+    $product->description = $description;
+    $product->price = $price;
+    $product->tva_tx = $tva;
+    $product->status_buy = 1;
+    $product->status = 1;
+    $product->type = $product_type;
+    $product->create($user);
+    setEventMessage('Produit créer', 'mesgs');
+}
