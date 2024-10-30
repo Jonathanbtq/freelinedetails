@@ -216,6 +216,8 @@ class ActionsFreelinedetails extends CommonHookActions
 						$a = $('a[lineid='+lineid+']'); 
 						let label = $a.attr('label');
 						let qty = $a.attr('qty');
+						let ref = '';
+						let description = '';
 						let price = $a.attr('price');
 						let product_type = $a.attr('product_type');
 						let tva = $a.attr('tva');
@@ -225,6 +227,8 @@ class ActionsFreelinedetails extends CommonHookActions
 							<h3>Modifier le produit</h3>
 							<p><label>Nom : <input type="text" id="label" value="${label}"></label></p>
 							<p><label>Quantité : <input type="number" id="qty" value="${qty}"></label></p>
+							<p><label>Réfence : <input type="number" id="ref" value="${ref}"></label></p>
+							<p><label>Description : <input type="number" id="description" value="${description}"></label></p>
 							<p><label>Prix : <input type="number" id="price" value="${price}" step="0.01"></label></p>
 							<p><label>Type : <input type="text" id="product_type" value="${product_type}"></label></p>
 							<p><label>Tva : <input type="number" id="tva" value="${tva}" step="0.01"></label></p>
@@ -251,22 +255,33 @@ class ActionsFreelinedetails extends CommonHookActions
 							// Récupérer les nouvelles valeurs saisies par l'utilisateur
 							const newLabel = document.getElementById('label').value;
 							const newQty = document.getElementById('qty').value;
+							const newRef = document.getElementById('ref').value;
+							const newDescription = document.getElementById('description').value;
 							const newPrice = document.getElementById('price').value;
 							const newProductType = document.getElementById('product_type').value;
 							const newTva = document.getElementById('tva').value;
 
-							// Traitement pour enregistrer les valeurs (ajoute ta logique ici)
-							console.log('Enregistrement des valeurs:', {
-								lineid,
-								label: newLabel,
-								qty: newQty,
-								price: newPrice,
-								product_type: newProductType,
-								tva: newTva
-							});
-
-							// Retire la div après enregistrement
-							document.body.removeChild(newDiv);
+							$.ajax({
+								url: "<?php echo dol_buildpath('/freelinedetails/script/savefreeline.php',1) ?>",
+								type: 'POST',
+								data: {
+									lineid,
+									label: newLabel,
+									qty: newQty,
+									ref: newRef,
+									description: newDescription,
+									price: newPrice,
+									product_type: newProductType,
+									tva: newTva
+								},
+								succes: function(response) {
+									console.log(response);
+									document.body.removeChild(newDiv);
+								},
+								error: function() {
+									alert('Erreur lors de l\'enregistrement');
+								}
+							})
 						});
 					}
 					$(document).ready(function () {<?php
