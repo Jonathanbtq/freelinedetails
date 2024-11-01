@@ -266,15 +266,35 @@ class ActionsFreelinedetails extends CommonHookActions
 								data: {
 									lineid,
 									label: newLabel,
-									// qty: newQty,
 									ref: newRef,
 									description: newDescription,
 									price: newPrice,
 									product_type: newProductType,
 									tva: newTva
 								},
-								succes: function(response) {
+								success: function(response) {
 									document.body.removeChild(newDiv);
+									// response = JSON.parse(response)
+									// if (response.success) {
+									// 	const trs = document.querySelector('tr[data-id="'+lineid+'"]');
+									// 	if (trs) {
+									// 		const descriptionCell = trs.querySelector('.linecoldescription');
+									// 		const linecolvat = trs.querySelector('.linecolvat');
+									// 		const linecoluht = trs.querySelector('.linecoluht');
+									// 		const linecoluttc = trs.querySelector('.linecoluttc');
+									// 		const linecolqty = trs.querySelector('.linecolqty');
+									// 		const linecolht = trs.querySelector('.linecolht');
+	
+									// 		if (descriptionCell) {
+									// 			const textNode = document.createTextNode(response.data.description);
+									// 			td.appendChild(textNode);
+									// 			// descriptionCell.childNodes[2].textContent = response.data.description;s
+									// 		}
+									// 		if (linecolvat) linecolvat.textContent = response.data.tva;
+									// 		if (linecoluht) linecoluht.textContent = response.data.price;
+									// 		if (linecoluttc) linecoluttc.textContent = parseFloat(response.data.price) + parseFloat(response.data.tva);
+									// 	}
+									// }
 								},
 								error: function() {
 									alert('Erreur lors de l\'enregistrement');

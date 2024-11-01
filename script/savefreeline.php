@@ -50,6 +50,21 @@ if (empty($lineid) && empty($label)) {
     $product->status_buy = 1;
     $product->status = 1;
     $product->type = $product_type;
-    $product->create($user);
-    setEventMessage('Produit créer', 'mesgs');
+    $prd = $product->create($user);
+
+    if ($prd > 0) {
+        if($element == 'propal')$table='propaldet';
+        else if($element == 'commande')$table='commandedet';
+
+        $db->query("UPDATE ".MAIN_DB_PREFIX.$table." SET fk_product=".$prd.",description=''  WHERE rowid=".$lineid);
+    }
+    
+    echo json_encode([
+        'success' => true,
+        'data' => [
+            'description' => $description,
+            'price' => $price,
+            'tva' => $tva
+        ]
+    ]);
 }
