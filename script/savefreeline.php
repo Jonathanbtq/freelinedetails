@@ -56,9 +56,14 @@ if (empty($lineid) && empty($label)) {
         if($element == 'propal')$table='propaldet';
         else if($element == 'commande')$table='commandedet';
 
-        $db->query("UPDATE ".MAIN_DB_PREFIX.$table." SET fk_product=".$prd.",description=''  WHERE rowid=".$lineid);
+        if($res = $db->query("UPDATE ".MAIN_DB_PREFIX.$table." SET fk_product=".$prd.",description=''  WHERE rowid=".$lineid)) {
+            var_dump($res);
+            setEventMessage('Produit créer', 'mesgs');
+        } else {
+            setEventMessage('Une erreur est survenu lors de la création du produit', 'errors');
+        }
     }
-    
+
     echo json_encode([
         'success' => true,
         'data' => [
