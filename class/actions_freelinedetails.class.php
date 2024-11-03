@@ -206,11 +206,10 @@ class ActionsFreelinedetails extends CommonHookActions
 		$langs->load('freelinedetails@freelinedetails');
 		/* print_r($parameters); print_r($object); echo "action: " . $action; */
 		// @phan-suppress-next-line PhanPluginEmptyStatementIf
-		if (in_array($parameters['currentcontext'], array('ordercard'))) {
+		if (in_array($parameters['currentcontext'], array('ordercard', 'propalcard'))) {
 			if(!empty($object->lines)) {
-				
 				?><script type="text/javascript">
-					function free2product(lineid) {
+					function freeline2product(lineid) {
 						
 						// Récupération de la ligne produit libre
 						$a = $('a[lineid='+lineid+']');
@@ -293,7 +292,7 @@ class ActionsFreelinedetails extends CommonHookActions
 								$desc = !empty($line->desc) ? $line->desc : $line->description;
 								$desc = strip_tags($desc);
 								$link='<a href="javascript:;" style="float:left;"';
-								$link.=' onclick="free2product('.$lineid.')" lineid="'.$lineid.'"';
+								$link.=' onclick="freeline2product('.$lineid.')" lineid="'.$lineid.'"';
 								$link.=' label="'.htmlentities(addslashes(strtr($desc,array("\n"=>'\n',"\r"=>'')))).'"';
 								$link.=' qty="'.$line->qty.'" price="'.$line->subprice.'"';
 								$link.=' product_type="'.$line->product_type.'" tva="'.$line->tva_tx.'">';
