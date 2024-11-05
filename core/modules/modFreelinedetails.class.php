@@ -122,6 +122,7 @@ class modFreelinedetails extends DolibarrModules
 			'hooks' => array(
 				  'data' => array(
 				      'ordercard',
+					  'propalcard'
 				  ),
 				  'entity' => '0',
 			),

@@ -22,6 +22,8 @@ if(!defined('DB_HOST')) {
 }
 
 dol_include_once('/product/class/product.class.php');
+dol_include_once('/commande/class/orderline.class.php');
+dol_include_once('/comm/propal/class/propaleligne.class.php');
 
 global $user, $langs;
 
@@ -51,39 +53,61 @@ if (empty($lineid) && empty($label)) {
     $product->status = 1;
     $product->type = $product_type;
     $prd = $product->create($user);
-
-    // $prod = new Product($db);
-    // $prod->fetch($prd);
-
+    
     if ($prd > 0) {
-        if($element == 'propal')$table='propaldet';
-        else if($element == 'commande')$table='commandedet';
-
+        if($element == 'propal'){
+            $table='propaldet';
+            $classligne = 'PropaleLigne';
+        }
+        else if($element == 'commande') {
+            $table='commandedet';
+            $classligne = 'OrderLine';
+        }
+    
+        $object = new $classligne($db);
+        $object->fetch($lineid);
         $totalttc = price2num($price) + (price2num($price) * $tva / 100);
-        $sql = "UPDATE ".MAIN_DB_PREFIX.$table;
-        $sql .= " SET fk_product=".$prd;
-        $sql .= " ,description='".$description;
-        $sql .= " ,label='".$label;
-        $sql .= " ,tva_tx=".$tva;
-        $sql .= " ,price=".$price;
-        $sql .= " ,subprice=".$price;
-        $sql .= " ,total_ht=".$price;
-        $sql .= " ,total_ttc=".$totalttc;
-        $sql .= " ,product_type='".$product_type."'";
-        $sql .= " WHERE rowid=".$lineid;
-        if($res = $db->query($sql)) {
+        $object->fk_product = strval($prd);
+        $object->total_ttc = strval($totalttc);
+        $object->total_ht = strval($price * $object->qty);
+        $object->desc = $description;
+        $object->label = $label;
+        $object->tva_tx = $tva;
+        $object->price = strval($price);
+        $object->subprice = strval($price);
+        $object->product_type = $product_type;
+        $res = $object->update($user, true);
+        $object->update_total();
+        if ($res) {
             setEventMessage('Produit créer', 'mesgs');
+            echo json_encode([
+                'success' => true,
+                'data' => [
+                    'description' => $description,
+                    'price' => $price,
+                    'tva' => $tva
+                ]
+            ]);
         } else {
             setEventMessage('Une erreur est survenu lors de la création du produit', 'errors');
         }
-    }
 
-    echo json_encode([
-        'success' => true,
-        'data' => [
-            'description' => $description,
-            'price' => $price,
-            'tva' => $tva
-        ]
-    ]);
+        // $totalttc = price2num($price) + (price2num($price) * $tva / 100);
+        // $sql = "UPDATE ".MAIN_DB_PREFIX.$table;
+        // $sql .= " SET fk_product=".$prd;
+        // $sql .= " ,description='".$description;
+        // $sql .= "' ,label='".$label;
+        // $sql .= "' ,tva_tx=".$tva;
+        // $sql .= " ,price=".$price;
+        // $sql .= " ,subprice=".$price;
+        // $sql .= " ,total_ht=".$object->total_ht;
+        // $sql .= " ,total_ttc=".$totalttc;
+        // $sql .= " ,product_type='".$product_type."'";
+        // $sql .= " WHERE rowid=".$lineid;
+        // if($res = $db->query($sql)) {
+        //     setEventMessage('Produit créer', 'mesgs');
+        // } else {
+        //     setEventMessage('Une erreur est survenu lors de la création du produit', 'errors');
+        // }
+    }
 }
