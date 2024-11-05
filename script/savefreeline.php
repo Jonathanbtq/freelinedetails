@@ -67,7 +67,12 @@ if (empty($lineid) && empty($label)) {
         $object = new $classligne($db);
         $object->fetch($lineid);
         $totalttc = price2num($price) + (price2num($price) * $tva / 100);
-        $object->fk_product = strval($prd);
+        // Save fk_product
+        $object->fk_product = $prd;
+        $sql = "UPDATE ".MAIN_DB_PREFIX.$table;
+        $sql .= " SET fk_product=".$prd;
+        $sql .= " WHERE rowid=".$lineid;
+        $db->query($sql);
         $object->total_ttc = strval($totalttc);
         $object->total_ht = strval($price * $object->qty);
         $object->desc = $description;
