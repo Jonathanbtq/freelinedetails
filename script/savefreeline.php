@@ -45,20 +45,32 @@ if (empty($lineid) && empty($label)) {
     $product->label = $label;
     $product->ref = $ref;
     $product->description = $description;
-    $product->price = $price;
+    $product->price = price2num($price);
     $product->tva_tx = $tva;
     $product->status_buy = 1;
     $product->status = 1;
     $product->type = $product_type;
     $prd = $product->create($user);
 
+    // $prod = new Product($db);
+    // $prod->fetch($prd);
+
     if ($prd > 0) {
         if($element == 'propal')$table='propaldet';
         else if($element == 'commande')$table='commandedet';
 
-        $sql = "UPDATE ".MAIN_DB_PREFIX.$table." SET fk_product=".$prd.",description='".$description."',label='".$label."',tva_tx=".$tva.",price=".$price.",product_type='".$product_type."'";
+        $totalttc = price2num($price) + (price2num($price) * $tva / 100);
+        $sql = "UPDATE ".MAIN_DB_PREFIX.$table;
+        $sql .= " SET fk_product=".$prd;
+        $sql .= " ,description='".$description;
+        $sql .= " ,label='".$label;
+        $sql .= " ,tva_tx=".$tva;
+        $sql .= " ,price=".$price;
+        $sql .= " ,subprice=".$price;
+        $sql .= " ,total_ht=".$price;
+        $sql .= " ,total_ttc=".$totalttc;
+        $sql .= " ,product_type='".$product_type."'";
         $sql .= " WHERE rowid=".$lineid;
-        var_dump($sql);
         if($res = $db->query($sql)) {
             setEventMessage('Produit créer', 'mesgs');
         } else {
