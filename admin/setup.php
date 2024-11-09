@@ -112,28 +112,8 @@ $item = $formSetup->newItem('FREELINEDETAILS_MYPARAM2');
 $item->defaultFieldValue = 'default value';
 $item->fieldAttr['placeholder'] = 'A placeholder here';
 
-// Setup conf for selection of a simple textarea input but we replace the text of field title
-$item = $formSetup->newItem('FREELINEDETAILS_MYPARAM3');
-$item->nameText = $item->getNameText().' more html text ';
-
-// Setup conf for a selection of a Thirdparty
-$item = $formSetup->newItem('FREELINEDETAILS_MYPARAM4');
-$item->setAsThirdpartyType();
-
-// Setup conf for a selection of a boolean
-$formSetup->newItem('FREELINEDETAILS_MYPARAM5')->setAsYesNo();
-
-// Setup conf for a selection of an Email template of type thirdparty
-$formSetup->newItem('FREELINEDETAILS_MYPARAM6')->setAsEmailTemplate('thirdparty');
-
-// Setup conf for a selection of a secured key
-//$formSetup->newItem('FREELINEDETAILS_MYPARAM7')->setAsSecureKey();
-
-// Setup conf for a selection of a Product
-$formSetup->newItem('FREELINEDETAILS_MYPARAM8')->setAsProduct();
-
 // Add a title for a new section
-$formSetup->newItem('NewSection')->setAsTitle();
+$formSetup->newItem('Details')->setAsTitle();
 
 $TField = array(
 	'test01' => $langs->trans('test01'),
