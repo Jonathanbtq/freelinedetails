@@ -217,6 +217,7 @@ class ActionsFreelinedetails extends CommonHookActions
 						let qty = $a.attr('qty');
 						let ref = '';
 						let description = '';
+						let weight = '';
 						let price = $a.attr('price');
 						let product_type = $a.attr('product_type');
 						let tva = $a.attr('tva');
@@ -227,6 +228,7 @@ class ActionsFreelinedetails extends CommonHookActions
 							<p><label>Nom : <input type="text" id="label" value="${label}"></label></p>
 							<p><label>Réfence : <input type="text" id="ref" value="${ref}"></label></p>
 							<p><label>Description : <input type="text" id="description" value="${description}"></label></p>
+							<p><label>Poids : <input type="text" id="weight" value="${weight}"></label></p>
 							<p><label>Prix : <input type="number" id="price" value="${price}" step="0.01"></label></p>
 							<p><label>Type : <input type="text" id="product_type" value="${product_type}"></label></p>
 							<p><label>Tva : <input type="number" id="tva" value="${tva}" step="0.01"></label></p>
@@ -254,6 +256,7 @@ class ActionsFreelinedetails extends CommonHookActions
 							const newLabel = document.getElementById('label').value;
 							const newRef = document.getElementById('ref').value;
 							const newDescription = document.getElementById('description').value;
+							const newWeight = document.getElementById('weight').value;
 							const newPrice = document.getElementById('price').value;
 							const newProductType = document.getElementById('product_type').value;
 							const newTva = document.getElementById('tva').value;
@@ -266,6 +269,7 @@ class ActionsFreelinedetails extends CommonHookActions
 									label: newLabel,
 									ref: newRef,
 									description: newDescription,
+									weight: newWeight,
 									price: newPrice,
 									product_type: newProductType,
 									tva: newTva,
@@ -282,7 +286,6 @@ class ActionsFreelinedetails extends CommonHookActions
 						});
 					}
 					$(document).ready(function () {<?php
-				
 						global $addButtonToConvertAll;
 						$addButtonToConvertAll = false;
 						foreach($object->lines as &$line) {
@@ -295,13 +298,12 @@ class ActionsFreelinedetails extends CommonHookActions
 								$link.=' onclick="freeline2product('.$lineid.')" lineid="'.$lineid.'"';
 								$link.=' label="'.htmlentities(addslashes(strtr($desc,array("\n"=>'\n',"\r"=>'')))).'"';
 								$link.=' qty="'.$line->qty.'" price="'.$line->subprice.'"';
-								$link.=' product_type="'.$line->product_type.'" tva="'.$line->tva_tx.'">';
+								$link.=' product_type="'.$line->product_type.'" tva="'.$line->tva_tx.'" weight="'.$line->weight.'">';
 								$link.=img_left($langs->trans('MakeAsProduct')).'</a>';
 								
 								?>
 								$('tr#row-<?php echo $lineid; ?> td:first').append('<?php echo $link; ?>');
 								<?php
-								
 							}
 							
 						}
@@ -311,7 +313,6 @@ class ActionsFreelinedetails extends CommonHookActions
 				<?php
 			}
 		}
-
 
 		return 0;
 	}

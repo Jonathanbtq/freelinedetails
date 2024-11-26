@@ -104,56 +104,8 @@ if (!$user->admin) {
 
 // Setup conf for selection of an URL
 $item = $formSetup->newItem('FREELINEDETAILS_MYPARAM1');
-$item->fieldAttr['placeholder'] = (empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'];
-$item->cssClass = 'minwidth500';
-
-// Setup conf for selection of a simple string input
-$item = $formSetup->newItem('FREELINEDETAILS_MYPARAM2');
 $item->defaultFieldValue = 'default value';
-$item->fieldAttr['placeholder'] = 'A placeholder here';
-
-// Add a title for a new section
-$formSetup->newItem('Details')->setAsTitle();
-
-$TField = array(
-	'test01' => $langs->trans('test01'),
-	'test02' => $langs->trans('test02'),
-	'test03' => $langs->trans('test03'),
-	'test04' => $langs->trans('test04'),
-	'test05' => $langs->trans('test05'),
-	'test06' => $langs->trans('test06'),
-);
-
-// Setup conf for a simple combo list
-$formSetup->newItem('FREELINEDETAILS_MYPARAM9')->setAsSelect($TField);
-
-// Setup conf for a multiselect combo list
-$item = $formSetup->newItem('FREELINEDETAILS_MYPARAM10');
-$item->setAsMultiSelect($TField);
-$item->helpText = $langs->transnoentities('FREELINEDETAILS_MYPARAM10');
-
-// Setup conf for a category selection
-$formSetup->newItem('FREELINEDETAILS_CATEGORY_ID_XXX')->setAsCategory('product');
-
-// Setup conf FREELINEDETAILS_MYPARAM10
-$item = $formSetup->newItem('FREELINEDETAILS_MYPARAM10');
-$item->setAsColor();
-$item->defaultFieldValue = '#FF0000';
-//$item->fieldValue = '';
-//$item->fieldAttr = array() ; // fields attribute only for compatible fields like input text
-//$item->fieldOverride = false; // set this var to override field output will override $fieldInputOverride and $fieldOutputOverride too
-//$item->fieldInputOverride = false; // set this var to override field input
-//$item->fieldOutputOverride = false; // set this var to override field output
-
-$item = $formSetup->newItem('FREELINEDETAILS_MYPARAM11')->setAsHtml();
-$item->nameText = $item->getNameText().' more html text ';
-$item->fieldInputOverride = '';
-$item->helpText = $langs->transnoentities('HelpMessage');
-$item->cssClass = 'minwidth500';
-
-$item = $formSetup->newItem('FREELINEDETAILS_MYPARAM12');
-$item->fieldOverride = "Value forced, can't be modified";
-$item->cssClass = 'minwidth500';
+$item->fieldAttr['placeholder'] = 'A placeholder here'; 
 
 //$item = $formSetup->newItem('FREELINEDETAILS_MYPARAM13')->setAsDate();	// Not yet implemented
 
