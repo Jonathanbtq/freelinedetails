@@ -31,7 +31,9 @@ $lineid=GETPOST('lineid');
 $label = GETPOST('label');
 $price = GETPOST('price');
 $description = GETPOST('description');
+$weight = GETPOST('height');
 $weight = GETPOST('weight');
+$weight = GETPOST('cost_price');
 $element = GETPOST('element');
 $ref = GETPOST('ref');
 $product_type = GETPOST('product_type');
@@ -49,6 +51,8 @@ if (empty($lineid) && empty($label)) {
     $product->ref = $ref;
     $product->description = $description;
     $product->weight = $weight;
+    $product->height = $height;
+    $product->cost_price = $cost_price;
     $product->price = price2num($price);
     $product->tva_tx = $tva;
     $product->status_buy = 1;
@@ -79,6 +83,8 @@ if (empty($lineid) && empty($label)) {
         $object->total_ht = strval($price * $object->qty);
         $object->desc = $description;
         $object->weight = $weight;
+        $object->height = $height;
+        $object->cost_price = $cost_price;
         $object->label = $label;
         $object->tva_tx = $tva;
         $object->price = strval($price);

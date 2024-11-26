@@ -217,24 +217,41 @@ class ActionsFreelinedetails extends CommonHookActions
 						let qty = $a.attr('qty');
 						let ref = '';
 						let description = '';
-						let weight = '';
+						<?php
+						if ($conf->global->FREELINEDETAILS_MORECHOICE) {
+							?>
+							let weight = '';
+							let height = '';
+							let cost_price = '';
+							<?php
+						}
+						?>
 						let price = $a.attr('price');
 						let product_type = $a.attr('product_type');
 						let tva = $a.attr('tva');
 
 						const newDiv = document.createElement('div');
-						newDiv.innerHTML = `
-							<h3>Modifier le produit</h3>
-							<p><label>Nom : <input type="text" id="label" value="${label}"></label></p>
-							<p><label>Réfence : <input type="text" id="ref" value="${ref}"></label></p>
-							<p><label>Description : <input type="text" id="description" value="${description}"></label></p>
+						let htmlContent = `
+						<h3>Modifier le produit</h3>
+						<p><label>Nom : <input type="text" id="label" value="${label}"></label></p>
+						<p><label>Référence : <input type="text" id="ref" value="${ref}"></label></p>
+						<p><label>Description : <input type="text" id="description" value="${description}"></label></p>`;
+						<?php if ($conf->global->FREELINEDETAILS_MORECHOICE) { ?>
+						htmlContent += `
 							<p><label>Poids : <input type="text" id="weight" value="${weight}"></label></p>
+							<p><label>Hauteur : <input type="text" id="height" value="${height}"></label></p>
+							<p><label>Coût fabrication : <input type="text" id="cost_price" value="${cost_price}"></label></p>`;
+						<?php } ?>
+						htmlContent += `
 							<p><label>Prix : <input type="number" id="price" value="${price}" step="0.01"></label></p>
 							<p><label>Type : <input type="text" id="product_type" value="${product_type}"></label></p>
 							<p><label>Tva : <input type="number" id="tva" value="${tva}" step="0.01"></label></p>
 							<button id="saveBtn">Enregistrer</button>
 							<button id="closeBtn">Fermer</button>
 						`;
+
+						// Insérer le contenu dans le div
+						newDiv.innerHTML = htmlContent;
 
 						newDiv.style.position = 'fixed';
 						newDiv.style.top = '25%';
@@ -256,28 +273,42 @@ class ActionsFreelinedetails extends CommonHookActions
 							const newLabel = document.getElementById('label').value;
 							const newRef = document.getElementById('ref').value;
 							const newDescription = document.getElementById('description').value;
-							const newWeight = document.getElementById('weight').value;
+							<?php
+							if ($conf->global->FREELINEDETAILS_MORECHOICE === 1) {
+								?>
+								const newWeight = document.getElementById('weight').value;
+								const newHeight = document.getElementById('height').value;
+								const newCost_price = document.getElementById('cost_price').value;
+								<?php
+							}
+							?>
 							const newPrice = document.getElementById('price').value;
 							const newProductType = document.getElementById('product_type').value;
 							const newTva = document.getElementById('tva').value;
 
+							const dataToSend = {
+    							lineid,
+								label: newLabel,
+								ref: newRef,
+								description: newDescription,
+								price: newPrice,
+								product_type: newProductType,
+								tva: newTva,
+								element: "<?php echo $object->element; ?>"
+								<?php if ($conf->global->FREELINEDETAILS_MORECHOICE === 1): ?>
+								, weight: newWeight,
+								height: newHeight,
+								cost_price: newCost_price
+								<?php endif; ?>
+							};
+
 							$.ajax({
 								url: "<?php echo dol_buildpath('/freelinedetails/script/savefreeline.php',1) ?>",
 								type: 'POST',
-								data: {
-									lineid,
-									label: newLabel,
-									ref: newRef,
-									description: newDescription,
-									weight: newWeight,
-									price: newPrice,
-									product_type: newProductType,
-									tva: newTva,
-									element: "<?php echo $object->element; ?>"
-								},
+								data: dataToSend,
 								success: function(response) {
 									document.body.removeChild(newDiv);
-									document.location.href='';
+									document.location.reload();
 								},
 								error: function() {
 									alert('Erreur lors de l\'enregistrement');
@@ -298,7 +329,8 @@ class ActionsFreelinedetails extends CommonHookActions
 								$link.=' onclick="freeline2product('.$lineid.')" lineid="'.$lineid.'"';
 								$link.=' label="'.htmlentities(addslashes(strtr($desc,array("\n"=>'\n',"\r"=>'')))).'"';
 								$link.=' qty="'.$line->qty.'" price="'.$line->subprice.'"';
-								$link.=' product_type="'.$line->product_type.'" tva="'.$line->tva_tx.'" weight="'.$line->weight.'">';
+								$link.=' product_type="'.$line->product_type.'" tva="'.$line->tva_tx.'" weight="'.$line->weight.'"';
+								$link.=' height="'.$line->height.'"'.$line->cost_price.'">';
 								$link.=img_left($langs->trans('MakeAsProduct')).'</a>';
 								
 								?>

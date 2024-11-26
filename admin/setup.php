@@ -103,9 +103,7 @@ if (!$user->admin) {
 // Enter here all parameters in your setup page
 
 // Setup conf for selection of an URL
-$item = $formSetup->newItem('FREELINEDETAILS_MYPARAM1');
-$item->defaultFieldValue = 'default value';
-$item->fieldAttr['placeholder'] = 'A placeholder here'; 
+$item = $formSetup->newItem('FREELINEDETAILS_MORECHOICE')->setAsYesNo();
 
 //$item = $formSetup->newItem('FREELINEDETAILS_MYPARAM13')->setAsDate();	// Not yet implemented
 
