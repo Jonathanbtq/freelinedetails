@@ -35,8 +35,10 @@
 .freedtl_btn_header {
     display: flex;
     flex-wrap: nowrap;
-    width: 100%;
-    justify-content: space-between;
+    width: 95% !important;
+    justify-content: space-between !important;
+    margin-bottom: 20px;
+    padding: 0 10px;
     align-items: center;
 }
 
@@ -44,7 +46,7 @@
 .freedtl_btn_header h3 {
     color: #ff0000;
     font-size: 20px;
-    margin-bottom: 5px;
+    margin: 0;
 }
 
 #closeBtn {
@@ -74,11 +76,12 @@
 .freelinedetails_list_freeproduct div {
     display: flex;
     flex-wrap: nowrap;
+    justify-content: center;
     width: 100%;
     /* margin: 0 0 10px 0; */
 }
 .freelinedetails_list_freeproduct div label{
-    width: 32%;
+    width: 35%;
     color: #555;
     font-size: 14px;
 }
@@ -89,4 +92,34 @@
     border-radius: 5px;
     margin: 0;
     font-size: 14px;
+}
+.freelinedetails_savebtn {
+    width: 60%;
+    /* background-color: #747474; */
+    margin-top: 20px;
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #ff4500;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* --- Effet au survol --- */
+.popup-body button:hover {
+    background-color: #ff0000;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+}
+  
+  /* --- Effet au clic --- */
+.popup-body button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

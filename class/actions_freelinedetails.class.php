@@ -257,7 +257,8 @@ class ActionsFreelinedetails extends CommonHookActions
 							<label>Type</label><input type="text" id="product_type" value="${product_type}"></div>
 							<div>
 							<label>Tva</label><input type="number" id="tva" value="${tva}" step="0.01"></div>
-							<button id="saveBtn">Enregistrer</button>
+							<div>
+							<button id="saveBtn" class="freelinedetails_savebtn">Enregistrer</button></div>
 						`;
 
 						// Insérer le contenu dans le div
