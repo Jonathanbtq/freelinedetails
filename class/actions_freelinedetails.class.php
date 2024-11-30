@@ -231,35 +231,45 @@ class ActionsFreelinedetails extends CommonHookActions
 						let tva = $a.attr('tva');
 
 						const newDiv = document.createElement('div');
+						newDiv.className = 'freelinedetails_list_freeproduct'
 						let htmlContent = `
-						<h3>Modifier le produit</h3>
-						<p><label>Nom : <input type="text" id="label" value="${label}"></label></p>
-						<p><label>Référence : <input type="text" id="ref" value="${ref}"></label></p>
-						<p><label>Description : <input type="text" id="description" value="${description}"></label></p>`;
+						<div class="freedtl_btn_header">
+						<h3>Modifier le produit</h3><button id="closeBtn">X</button></div>
+						<div>
+						<label>Nom</label><input type="text" id="label" value="${label}"></div>
+						<div>
+						<label>Référence</label><input type="text" id="ref" value="${ref}"></div>
+						<div>
+						<label>Description</label><textarea id="description" name="description" rows="1" placeholder="Entrez une description..." >${description}</textarea></div>`;
 						<?php if ($conf->global->FREELINEDETAILS_MORECHOICE) { ?>
 						htmlContent += `
-							<p><label>Poids : <input type="text" id="weight" value="${weight}"></label></p>
-							<p><label>Hauteur : <input type="text" id="height" value="${height}"></label></p>
-							<p><label>Coût fabrication : <input type="text" id="cost_price" value="${cost_price}"></label></p>`;
+							<div>
+							<label>Poids</label><input type="text" id="weight" value="${weight}"></div>
+							<div>
+							<label>Hauteur</label><input type="text" id="height" value="${height}"></div>
+							<div>
+							<label>Coût fabrication</label><input type="text" id="cost_price" value="${cost_price}"></div>`;
 						<?php } ?>
 						htmlContent += `
-							<p><label>Prix : <input type="number" id="price" value="${price}" step="0.01"></label></p>
-							<p><label>Type : <input type="text" id="product_type" value="${product_type}"></label></p>
-							<p><label>Tva : <input type="number" id="tva" value="${tva}" step="0.01"></label></p>
+							<div>
+							<label>Prix</label><input type="number" id="price" value="${price}" step="0.01"></div>
+							<div>
+							<label>Type</label><input type="text" id="product_type" value="${product_type}"></div>
+							<div>
+							<label>Tva</label><input type="number" id="tva" value="${tva}" step="0.01"></div>
 							<button id="saveBtn">Enregistrer</button>
-							<button id="closeBtn">Fermer</button>
 						`;
 
 						// Insérer le contenu dans le div
 						newDiv.innerHTML = htmlContent;
 
-						newDiv.style.position = 'fixed';
-						newDiv.style.top = '25%';
-						newDiv.style.left = '50%';
-						newDiv.style.padding = '10px';
-						newDiv.style.backgroundColor = '#f0f0f0';
-						newDiv.style.border = '1px solid #000';
-						newDiv.style.zIndex = 1000;
+						// newDiv.style.position = 'fixed';
+						// newDiv.style.top = '25%';
+						// newDiv.style.left = '50%';
+						// newDiv.style.padding = '10px';
+						// newDiv.style.backgroundColor = '#f0f0f0';
+						// newDiv.style.border = '1px solid #000';
+						// newDiv.style.zIndex = 1000;
 						
 						document.body.appendChild(newDiv);
 
