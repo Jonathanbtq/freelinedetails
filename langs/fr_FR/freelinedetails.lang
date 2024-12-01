@@ -20,7 +20,8 @@ FREELINEDETAILS_MYPARAM1 = My param 1
 FREELINEDETAILS_MYPARAM1Tooltip = My param 1 tooltip
 FREELINEDETAILS_MYPARAM2=My param 2
 FREELINEDETAILS_MYPARAM2Tooltip=My param 2 tooltip
-FREELINEDETAILS_MORECHOICE = Plus de choix détails produit (poids / hauteur / cost price)
+FREELINEDETAILS_MORECHOICE = Plus de choix détails produit (poids / cost price)
+FREELINEDETAILS_MORECHOICE_SIZE = Plus de choix pour la taille... (hauteur, largeur, longueur)
 
 #
 # Commande / Propal Page

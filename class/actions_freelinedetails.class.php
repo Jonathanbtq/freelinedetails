@@ -226,7 +226,7 @@ class ActionsFreelinedetails extends CommonHookActions
 						}
 						?>
 						<?php
-						if ($conf->global->FREELINEDETAILS_MORECHOICE) {
+						if ($conf->global->FREELINEDETAILS_MORECHOICE_SIZE) {
 							?>
 							let length = '';
 							let width = '';
@@ -244,39 +244,39 @@ class ActionsFreelinedetails extends CommonHookActions
 						<div class="freedtl_btn_header">
 						<h3><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT"); ?></h3><button id="closeBtn">X</button></div>
 						<div>
-						<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_NAME"); ?></label><input type="text" id="label" value="${label}"></div>
+						<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_NAME"); ?><span class="fas fa-info-circle  em088 opacityhigh" style="" title="Label Obligatoire"></span></label><input type="text" id="freeline_label" value="${label}"></div>
 						<div>
-						<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_REF"); ?></label><input type="text" id="ref" value="${ref}"></div>
+						<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_REF"); ?><span class="fas fa-info-circle  em088 opacityhigh" style="" title="Référence Obligatoire"></span></label><input type="text" id="freeline_ref" value="${ref}"></div>
 						<div>
-						<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_DESC"); ?></label><textarea id="description" name="description" rows="1" placeholder="Entrez une description..." >${description}</textarea></div>`;
+						<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_DESC"); ?></label><textarea id="freeline_description" name="description" rows="1" placeholder="Entrez une description..." >${description}</textarea></div>`;
 						<?php if ($conf->global->FREELINEDETAILS_MORECHOICE) { ?>
 						htmlContent += `
 							<h2><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_MOREDTL"); ?></h2>
 							<section class="freelinedetails_moreoptions">
 							<div>
-							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_WEIGHT"); ?></label><input type="text" id="weight" value="${weight}"></div>
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_WEIGHT"); ?></label><input type="text" id="freeline_weight" value="${weight}"></div>
 							<div>
-							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_COUTFABRICATION"); ?></label><input type="text" id="cost_price" value="${cost_price}"></div>`;
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_COUTFABRICATION"); ?></label><input type="text" id="freeline_cost_price" value="${cost_price}"></div>`;
 						<?php } ?>
 						<?php if ($conf->global->FREELINEDETAILS_MORECHOICE_SIZE) { ?>
 						htmlContent += `
 							<h2 class="freelinedetails_moredtl_h2"><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_MORESIZE"); ?></h2>
 							<section class="freelinedetails_moreoptions_size">
 							<div>
-							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_LONG"); ?></label><input type="text" id="weight" value="${length}"></div>
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_LONG"); ?></label><input type="text" id="freeline_length" value="${length}"></div>
 							<div>
-							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_HAUT"); ?></label><input type="text" id="height" value="${height}"></div>
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_HAUT"); ?></label><input type="text" id="freeline_height" value="${height}"></div>
 							<div>
-							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_LARG"); ?></label><input type="text" id="cost_price" value="${width}"></div>
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_LARG"); ?></label><input type="text" id="freeline_width" value="${width}"></div>
 							</section>`;
 						<?php } ?>
 						htmlContent += `
 							<div>
-							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_PRICE"); ?></label><input type="number" id="price" value="${price}" step="0.01"></div>
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_PRICE"); ?></label><input type="number" id="freeline_price" value="${price}" step="0.01"></div>
 							<div>
-							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_TYPE"); ?></label><input type="text" id="product_type" value="${product_type}"></div>
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_TYPE"); ?></label><input type="text" id="freeline_product_type" value="${product_type}"></div>
 							<div>
-							<label>Tva</label><input type="number" id="tva" value="${tva}" step="0.01"></div>
+							<label>Tva</label><input type="number" id="freeline_tva" value="${tva}" step="0.01"></div>
 							<div>
 							<button id="saveBtn" class="freelinedetails_savebtn">Enregistrer</button></div>
 						`;
@@ -304,29 +304,29 @@ class ActionsFreelinedetails extends CommonHookActions
 						// Gestion du bouton "Enregistrer" pour récupérer les nouvelles valeurs
 						document.getElementById('saveBtn').addEventListener('click', function() {
 							// Récupérer les nouvelles valeurs saisies par l'utilisateur
-							const newLabel = document.getElementById('label').value;
-							const newRef = document.getElementById('ref').value;
-							const newDescription = document.getElementById('description').value;
+							const newLabel = document.getElementById('freeline_label').value;
+							const newRef = document.getElementById('freeline_ref').value;
+							const newDescription = document.getElementById('freeline_description').value;
 							<?php
 							if ($conf->global->FREELINEDETAILS_MORECHOICE === '1') {
 								?>
-								const newWeight = document.getElementById('weight').value;
-								const newCost_price = document.getElementById('cost_price').value;
+								const newWeight = document.getElementById('freeline_weight').value;
+								const newCost_price = document.getElementById('freeline_cost_price').value;
 								<?php
 							}
 							?>
 							<?php
 							if ($conf->global->FREELINEDETAILS_MORECHOICE_SIZE === '1') {
 								?>
-								const newLength = document.getElementById('length').value;
-								const newWidth = document.getElementById('width').value;
-								const newHeight = document.getElementById('height').value;
+								const newLength = document.getElementById('freeline_length').value;
+								const newWidth = document.getElementById('freeline_width').value;
+								const newHeight = document.getElementById('freeline_height').value;
 								<?php
 							}
 							?>
-							const newPrice = document.getElementById('price').value;
-							const newProductType = document.getElementById('product_type').value;
-							const newTva = document.getElementById('tva').value;
+							const newPrice = document.getElementById('freeline_price').value;
+							const newProductType = document.getElementById('freeline_product_type').value;
+							const newTva = document.getElementById('freeline_tva').value;
 
 							const dataToSend = {
     							lineid,

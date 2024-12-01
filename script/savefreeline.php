@@ -49,9 +49,9 @@ if($product->fetch('', $ref) > 0) {
 if (empty($lineid) && empty($label)) {
     setEventMessage('Une erreur est survenue (label manquant ou autre)', 'errors');
 } else {
-    $product->label = $label;
-    $product->ref = $ref;
-    $product->description = $description;
+    $product->label = $db->escape($label);
+    $product->ref = !empty($ref) ? $db->escape($ref) : '';
+    $product->description = !empty($description) ? $db->escape($description) : '';
     $product->weight = $weight;
     $product->height = $height;
     $product->width = $width;
@@ -85,19 +85,20 @@ if (empty($lineid) && empty($label)) {
         $db->query($sql);
         $object->total_ttc = strval($totalttc);
         $object->total_ht = strval($price * $object->qty);
-        $object->desc = $description;
-        $object->weight = $weight;
-        $object->height = $height;
-        $object->width = $width;
-        $object->length = $length;
-        $object->cost_price = $cost_price;
-        $object->label = $label;
-        $object->tva_tx = $tva;
-        $object->price = strval($price);
-        $object->subprice = strval($price);
-        $object->product_type = $product_type;
+        $object->desc = !empty($description) ? $db->escape($description) : '';
+        $object->label = !empty($label) ? $db->escape($label) : '';
+        $object->weight = !empty($weight) ? $weight : '';
+        $object->height = !empty($height) ? $height : '';
+        $object->width = !empty($width) ? $width : '';
+        $object->length = !empty($length) ? $length : '';
+        $object->cost_price = !empty($cost_price) ? $cost_price : '';
+        $object->tva_tx = !empty($tva) ? $tva : '';
+        $object->price = !empty(strval($price)) ? strval($price) : '';
+        $object->subprice = !empty($price) ? strval($price) : '';
+        $object->product_type = !empty($product_type) ? $product_type : '';
         $res = $object->update($user, true);
         $object->update_total();
+
         if ($res) {
             setEventMessage('Produit créer', 'mesgs');
             echo json_encode([
