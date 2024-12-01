@@ -104,6 +104,7 @@ if (!$user->admin) {
 
 // Setup conf for selection of an URL
 $item = $formSetup->newItem('FREELINEDETAILS_MORECHOICE')->setAsYesNo();
+$item = $formSetup->newItem('FREELINEDETAILS_MORECHOICE_SIZE')->setAsYesNo();
 
 //$item = $formSetup->newItem('FREELINEDETAILS_MYPARAM13')->setAsDate();	// Not yet implemented
 

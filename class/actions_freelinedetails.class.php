@@ -221,8 +221,16 @@ class ActionsFreelinedetails extends CommonHookActions
 						if ($conf->global->FREELINEDETAILS_MORECHOICE) {
 							?>
 							let weight = '';
-							let height = '';
 							let cost_price = '';
+							<?php
+						}
+						?>
+						<?php
+						if ($conf->global->FREELINEDETAILS_MORECHOICE) {
+							?>
+							let length = '';
+							let width = '';
+							let height = '';
 							<?php
 						}
 						?>
@@ -246,9 +254,16 @@ class ActionsFreelinedetails extends CommonHookActions
 							<div>
 							<label>Poids</label><input type="text" id="weight" value="${weight}"></div>
 							<div>
+							<label>Coût fabrication</label><input type="text" id="cost_price" value="${cost_price}"></div>`;
+						<?php } ?>
+						<?php if ($conf->global->FREELINEDETAILS_MORECHOICE_SIZE) { ?>
+						htmlContent += `
+							<div>
+							<label>Longueur</label><input type="text" id="weight" value="${length}"></div>
+							<div>
 							<label>Hauteur</label><input type="text" id="height" value="${height}"></div>
 							<div>
-							<label>Coût fabrication</label><input type="text" id="cost_price" value="${cost_price}"></div>`;
+							<label>Largeur</label><input type="text" id="cost_price" value="${width}"></div>`;
 						<?php } ?>
 						htmlContent += `
 							<div>
@@ -285,11 +300,19 @@ class ActionsFreelinedetails extends CommonHookActions
 							const newRef = document.getElementById('ref').value;
 							const newDescription = document.getElementById('description').value;
 							<?php
-							if ($conf->global->FREELINEDETAILS_MORECHOICE === 1) {
+							if ($conf->global->FREELINEDETAILS_MORECHOICE === '1') {
 								?>
 								const newWeight = document.getElementById('weight').value;
-								const newHeight = document.getElementById('height').value;
 								const newCost_price = document.getElementById('cost_price').value;
+								<?php
+							}
+							?>
+							<?php
+							if ($conf->global->FREELINEDETAILS_MORECHOICE_SIZE === '1') {
+								?>
+								const newLength = document.getElementById('length').value;
+								const newWidth = document.getElementById('width').value;
+								const newHeight = document.getElementById('height').value;
 								<?php
 							}
 							?>
@@ -306,12 +329,16 @@ class ActionsFreelinedetails extends CommonHookActions
 								product_type: newProductType,
 								tva: newTva,
 								element: "<?php echo $object->element; ?>"
-								<?php if ($conf->global->FREELINEDETAILS_MORECHOICE === 1): ?>
-								, weight: newWeight,
-								height: newHeight,
-								cost_price: newCost_price
-								<?php endif; ?>
 							};
+							<?php if ($conf->global->FREELINEDETAILS_MORECHOICE === '1'): ?>
+							dataToSend.weight = newWeight;
+							dataToSend.cost_price = newCost_price;
+							<?php endif; ?>
+							<?php if ($conf->global->FREELINEDETAILS_MORECHOICE_SIZE === '1'): ?>
+							dataToSend.length = newLength;
+							dataToSend.width = newWidth;
+							dataToSend.height = newHeight;
+							<?php endif; ?>
 
 							$.ajax({
 								url: "<?php echo dol_buildpath('/freelinedetails/script/savefreeline.php',1) ?>",
@@ -319,7 +346,7 @@ class ActionsFreelinedetails extends CommonHookActions
 								data: dataToSend,
 								success: function(response) {
 									document.body.removeChild(newDiv);
-									document.location.reload();
+									// document.location.reload();
 								},
 								error: function() {
 									alert('Erreur lors de l\'enregistrement');
@@ -341,7 +368,7 @@ class ActionsFreelinedetails extends CommonHookActions
 								$link.=' label="'.htmlentities(addslashes(strtr($desc,array("\n"=>'\n',"\r"=>'')))).'"';
 								$link.=' qty="'.$line->qty.'" price="'.$line->subprice.'"';
 								$link.=' product_type="'.$line->product_type.'" tva="'.$line->tva_tx.'" weight="'.$line->weight.'"';
-								$link.=' height="'.$line->height.'"'.$line->cost_price.'">';
+								$link.=' height="'.$line->height.'"'.$line->cost_price.'"'.$line->length.'"'.$line->width.'">';
 								$link.=img_left($langs->trans('MakeAsProduct')).'</a>';
 								
 								?>
