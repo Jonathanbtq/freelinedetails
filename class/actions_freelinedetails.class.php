@@ -242,51 +242,59 @@ class ActionsFreelinedetails extends CommonHookActions
 						newDiv.className = 'freelinedetails_list_freeproduct'
 						let htmlContent = `
 						<div class="freedtl_btn_header">
-						<h3>Modifier le produit</h3><button id="closeBtn">X</button></div>
+						<h3><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT"); ?></h3><button id="closeBtn">X</button></div>
 						<div>
-						<label>Nom</label><input type="text" id="label" value="${label}"></div>
+						<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_NAME"); ?></label><input type="text" id="label" value="${label}"></div>
 						<div>
-						<label>Référence</label><input type="text" id="ref" value="${ref}"></div>
+						<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_REF"); ?></label><input type="text" id="ref" value="${ref}"></div>
 						<div>
-						<label>Description</label><textarea id="description" name="description" rows="1" placeholder="Entrez une description..." >${description}</textarea></div>`;
+						<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_DESC"); ?></label><textarea id="description" name="description" rows="1" placeholder="Entrez une description..." >${description}</textarea></div>`;
 						<?php if ($conf->global->FREELINEDETAILS_MORECHOICE) { ?>
 						htmlContent += `
+							<h2><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_MOREDTL"); ?></h2>
+							<section class="freelinedetails_moreoptions">
 							<div>
-							<label>Poids</label><input type="text" id="weight" value="${weight}"></div>
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_WEIGHT"); ?></label><input type="text" id="weight" value="${weight}"></div>
 							<div>
-							<label>Coût fabrication</label><input type="text" id="cost_price" value="${cost_price}"></div>`;
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_COUTFABRICATION"); ?></label><input type="text" id="cost_price" value="${cost_price}"></div>`;
 						<?php } ?>
 						<?php if ($conf->global->FREELINEDETAILS_MORECHOICE_SIZE) { ?>
 						htmlContent += `
+							<h2 class="freelinedetails_moredtl_h2"><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_MORESIZE"); ?></h2>
+							<section class="freelinedetails_moreoptions_size">
 							<div>
-							<label>Longueur</label><input type="text" id="weight" value="${length}"></div>
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_LONG"); ?></label><input type="text" id="weight" value="${length}"></div>
 							<div>
-							<label>Hauteur</label><input type="text" id="height" value="${height}"></div>
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_HAUT"); ?></label><input type="text" id="height" value="${height}"></div>
 							<div>
-							<label>Largeur</label><input type="text" id="cost_price" value="${width}"></div>`;
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_LARG"); ?></label><input type="text" id="cost_price" value="${width}"></div>
+							</section>`;
 						<?php } ?>
 						htmlContent += `
 							<div>
-							<label>Prix</label><input type="number" id="price" value="${price}" step="0.01"></div>
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_PRICE"); ?></label><input type="number" id="price" value="${price}" step="0.01"></div>
 							<div>
-							<label>Type</label><input type="text" id="product_type" value="${product_type}"></div>
+							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_TYPE"); ?></label><input type="text" id="product_type" value="${product_type}"></div>
 							<div>
 							<label>Tva</label><input type="number" id="tva" value="${tva}" step="0.01"></div>
 							<div>
 							<button id="saveBtn" class="freelinedetails_savebtn">Enregistrer</button></div>
 						`;
 
+						document.body.addEventListener('click', (event) => {
+							if (event.target.matches('.freelinedetails_list_freeproduct freelinedetails_moredtl_h2')) {
+								const divMoredetails = document.querySelector('.freelinedetails_moreoptions_size');
+								if (divMoredetails) {
+									divMoredetails.style.display = divMoredetails.style.display === 'none' ? 'flex' : 'none';
+								} else {
+									console.error('Élément .freelinedetails_moreoptions_size introuvable');
+								}
+							}
+						});
+
+
 						// Insérer le contenu dans le div
 						newDiv.innerHTML = htmlContent;
-
-						// newDiv.style.position = 'fixed';
-						// newDiv.style.top = '25%';
-						// newDiv.style.left = '50%';
-						// newDiv.style.padding = '10px';
-						// newDiv.style.backgroundColor = '#f0f0f0';
-						// newDiv.style.border = '1px solid #000';
-						// newDiv.style.zIndex = 1000;
-						
 						document.body.appendChild(newDiv);
 
 						document.getElementById('closeBtn').addEventListener('click', function() {
@@ -363,14 +371,17 @@ class ActionsFreelinedetails extends CommonHookActions
 								$lineid = !empty($line->id) ? $line->id : $line->rowid; // compatibilité 3.6
 								$desc = !empty($line->desc) ? $line->desc : $line->description;
 								$desc = strip_tags($desc);
-								$link='<a href="javascript:;" style="float:left;"';
-								$link.=' onclick="freeline2product('.$lineid.')" lineid="'.$lineid.'"';
-								$link.=' label="'.htmlentities(addslashes(strtr($desc,array("\n"=>'\n',"\r"=>'')))).'"';
-								$link.=' qty="'.$line->qty.'" price="'.$line->subprice.'"';
-								$link.=' product_type="'.$line->product_type.'" tva="'.$line->tva_tx.'" weight="'.$line->weight.'"';
-								$link.=' height="'.$line->height.'"'.$line->cost_price.'"'.$line->length.'"'.$line->width.'">';
-								$link.=img_left($langs->trans('MakeAsProduct')).'</a>';
-								
+								$link = '<a href="javascript:;" style="float:left;"';
+								$link .= ' onclick="freeline2product('.$lineid.')" lineid="'.$lineid.'"';
+								$link .= ' label="'.htmlentities(addslashes(strtr($desc, array("\n" => '\n', "\r" => '')))).'"';
+								$link .= ' qty="'.$line->qty.'" price="'.$line->subprice.'"';
+								$link .= ' product_type="'.$line->product_type.'" tva="'.$line->tva_tx.'"';
+								$link .= ' weight="'.($line->weight ?? '').'"';
+								$link .= ' height="'.($line->height ?? '').'"';
+								$link .= ' cost_price="'.($line->cost_price ?? '').'"';
+								$link .= ' length="'.($line->length ?? '').'"';
+								$link .= ' width="'.($line->width ?? '').'">';
+								$link .= img_left($langs->trans('MakeAsProduct')).'</a>';
 								?>
 								$('tr#row-<?php echo $lineid; ?> td:first').append('<?php echo $link; ?>');
 								<?php
