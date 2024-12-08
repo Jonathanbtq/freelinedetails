@@ -251,7 +251,7 @@ class ActionsFreelinedetails extends CommonHookActions
 						<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_DESC"); ?></label><textarea id="freeline_description" name="description" rows="1" placeholder="Entrez une description..." >${description}</textarea></div>`;
 						<?php if ($conf->global->FREELINEDETAILS_MORECHOICE) { ?>
 						htmlContent += `
-							<h2><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_MOREDTL"); ?></h2>
+							<h2 class="freelinedetails_moreoptions_h2"><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_MOREDTL"); ?></h2>
 							<section class="freelinedetails_moreoptions">
 							<div>
 							<label><?php echo $langs->trans("FREELINEDETAILS_CREATE_PRODUCT_WEIGHT"); ?></label><input type="text" id="freeline_weight" value="${weight}"></div>
@@ -281,6 +281,23 @@ class ActionsFreelinedetails extends CommonHookActions
 							<button id="saveBtn" class="freelinedetails_savebtn">Enregistrer</button></div>
 						`;
 
+						const h2Tab = ['freelinedetails_moredtl_h2', 'freelinedetails_moreoptions_h2'];
+
+						h2Tab.forEach((className) => {
+							const element = document.querySelector(`.${className}`);
+							console.log(element);
+							if (element) {
+								element.addEventListener('click', (event) => {
+									console.log(element);
+									console.log(event);
+								})
+							}
+						})
+
+						if(document.querySelector('.freelinedetails_moreoptions_h2')) {
+							document.querySelector('.freelinedetails_moreoptions_h2').innerHTML = 'v';
+						}
+
 						document.body.addEventListener('click', (event) => {
 							if (event.target.matches('.freelinedetails_list_freeproduct freelinedetails_moredtl_h2')) {
 								const divMoredetails = document.querySelector('.freelinedetails_moreoptions_size');
@@ -291,7 +308,6 @@ class ActionsFreelinedetails extends CommonHookActions
 								}
 							}
 						});
-
 
 						// Insérer le contenu dans le div
 						newDiv.innerHTML = htmlContent;
