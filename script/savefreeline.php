@@ -23,7 +23,10 @@ if(!defined('DB_HOST')) {
 
 dol_include_once('/product/class/product.class.php');
 dol_include_once('/commande/class/orderline.class.php');
-dol_include_once('/comm/propal/class/propaleligne.class.php');
+// if (DOL_VERSION < '20') {
+//     dol_include_once('/comm/propal/class/propaleligne.class.php');
+// }
+require_once DOL_DOCUMENT_ROOT.'/comm/propal/class/propal.class.php';
 
 global $user, $langs;
 
