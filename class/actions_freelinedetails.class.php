@@ -352,7 +352,8 @@ class ActionsFreelinedetails extends CommonHookActions
 								price: newPrice,
 								product_type: newProductType,
 								tva: newTva,
-								element: "<?php echo $object->element; ?>"
+								element: "<?php echo $object->element; ?>",
+								token: "<?php echo newToken(); ?>"
 							};
 							<?php if ($conf->global->FREELINEDETAILS_MORECHOICE === '1'): ?>
 							dataToSend.weight = newWeight;
